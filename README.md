@@ -4,11 +4,11 @@
 
 ## Usage
 ### Basic Execution
-    $> sqa.rb path/to/mysql-slow-query.log
+    sqa.rb path/to/mysql-slow-query.log
 This analyzes the given log file and reports the top 10 most frequently executed SQL statements.
 
 ### Multiple Log Files
-    $> sqa.rb path/to/first-slow-query.log path/to/second-slow-query.log
+    sqa.rb path/to/first-slow-query.log path/to/second-slow-query.log
 This analyzes all the given log files and reports the top 10 most frequently executed SQL statements.
 
 ### Command Line Usage
@@ -29,17 +29,35 @@ This analyzes all the given log files and reports the top 10 most frequently exe
 ### Top N Statements
 Use the --count NUMBER command line option to control how many statements are returned in the final report.  By default, the top 10 statements are reported.
 
-    $> sqa.rb --count 100 mysql-slow-query.log
+    sqa.rb --count 100 mysql-slow-query.log
 This reports the top 100 statements.
 
 ### Filter out Low Frequency Statements
 Use the --min-calls NUMBER command line option to filter out low freqency statements from the final report.  By default, all calls are included in the analysis.
 
-    $> sqa.rb --min-calls 100 mysql-slow-query.log
+    sqa.rb --min-calls 100 mysql-slow-query.log
 This reports only statements which were executed at least 100 times.
 
 ### Filter out Fast Executing Statements
 Use the --min-query SECONDS command line option to filter out statements with a small, average query time.  By default, all calls are included in the analysis.
 
-    $> sqa.rb --min-query 2 mysql-slow-query.log
+    sqa.rb --min-query 2 mysql-slow-query.log
 This reports only statements which had an average query time of 2 seconds or more.
+
+### Filter out Fast Locking Statements
+Use the --min-lock SECONDS command line option to filter out statements with a small, average lock time.  By default, all calls are included in the analysis.
+
+    sqa.rb --min-lock 1 mysql-slow-query.log
+This reports only statements which had an average lock time of 1 second or more.
+
+### Filter out Statements with Small Result Sets
+Use the --min-rows-sent NUMBER command line option to filter out statement returning a small number of records from the final report.  By default, all calls are included in the analysis.
+
+    sqa.rb --min-rows-sent 100 mysql-slow-query.log
+This reports only statements which return on average at least 100 records.
+
+### Filter out Statements that Examine a Small Number of Records
+Use the --min-rows-examined NUMBER command line option to filter out statement examining a small number of records from the final report.  By default, all calls are included in the analysis.
+
+    sqa.rb --min-rows-examined 1000 mysql-slow-query.log
+This reports only statements which examine on average at least 1000 records.
